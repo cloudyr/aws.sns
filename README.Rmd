@@ -1,0 +1,70 @@
+# AWS SNS Client Package #
+
+**aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](http://aws.amazon.com/sns/) REST API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
+
+## Installation ##
+
+[![Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns)
+
+To install the latest development version from GitHub, run the following:
+
+```R
+if(!require("devtools")){
+    install.packages("devtools")
+    library("devtools")
+}
+install_github("cloudyr/aws.sns")
+```
+
+To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
+```
+
+## Code Examples ##
+
+The main purpose of Amazon SNS is to be able to push messages to different endpoints (e.g., Email, SMS, a Simple Queue Service queue, etc.). To do this, you have to create a *topic*, *subscribe* different endpoints (e.g., user email addresses) to that topic, and then *publish* to the topic. You can subscribe different types of endpoints to the same topic and, similarly, publish different messages to each type of endpoint simultaneously.
+
+To create a topic, use `create_topic` and configure it using `set_topic_attrs`. The `name` argument in `create_topic` is a private label for you to keep track of topics. To use a topic, you need to use `set_topic_attrs` to configure a public display name that will be visible to subscribers:
+
+```R
+topic <- create_topic(name = "Test Topic")
+set_topic_attrs(topic, attribute = c(DisplayName = "Publicly visible topic name"))
+```
+
+To add a subscription to a topic:
+
+```R
+subscribe(topic, "email", "me@example.com")
+subscribe(topic, "SMS", "1-111-555-1234")
+```
+
+You can confirm the status of subscriptions using `list_subscriptions`:
+
+```R
+list_subscriptions(topic)
+```
+
+Subscriptions need to be confirmed by the endpoint. For example, an SMS endpoint will require an SMS response to an subscription invitation message. Subscriptions can be removed using `unsubscribe` (or whatever method is described in the invitation message); thus subscriptions can be handled by both users and administrator (you).
+
+
+To publish a message, use `publish`:
+
+```R
+publish(topic = topic, message = "This is a test message!", subject = "Hello!")
+```
+
+By default, the message is sent to all platforms. This may not be ideal if multiple dissimilar endpoints are subscribed to the same topic (e.g., SMS and email). This can be resolved by maintaining separate Topics or, more easily, by sending different messages to each type of endpoint:
+
+```R
+msgs <- list()
+msgs$email = "This is a test email that will be sent to email addresses only."
+msgs$sms = "This is a test SMS that will be sent to phone numbers only."
+msgs$http = "This is a test message that will be sent to http URLs only."
+publish(topic = topic, message = message, subject = "Hello!")
+```
+
+In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+
+It is also possible to give other AWS accounts permission to view or publish to a topic using `add_permission`. For example, you may want to have multiple administrators who share responsibility for publishing messages to the topic. Permissions can be revoked using `remove_permission`.
+
+---
+[![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
