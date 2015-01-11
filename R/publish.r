@@ -21,7 +21,7 @@ publish <- function(topic, target, message, subject, ...) {
         query_list$Subject <- subject
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out), "aws-error")
+    if(inherits(out, "aws-error"))
         return(out)
     structure(out$PublishResponse, 
               RequestId = out$PublishResponse$ResponseMetadata$RequestId)
