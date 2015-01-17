@@ -1,10 +1,10 @@
-publish <- function(topic, target, message, subject, ...) {
+publish <- function(topic, endpoint, message, subject, ...) {
     if(!missing(topic))
         query_list <- list(TopicArn = topic, Action = "Publish")
-    else if(!missing(target))
-        query_list <- list(TargetArn = target, Action = "Publish")
+    else if(!missing(endpoint))
+        query_list <- list(TargetArn = endpoint, Action = "Publish")
     else
-        stop("Must supply either 'topic' or 'target'")
+        stop("Must supply either 'topic' or 'endpoint'")
     if(is.character(message)){
         query_list$Message <- message
     } else {

@@ -24,23 +24,48 @@ The main purpose of Amazon SNS is to be able to push messages to different endpo
 
 To create a topic, use `create_topic` and configure it using `set_topic_attrs`. The `name` argument in `create_topic` is a private label for you to keep track of topics. To use a topic, you need to use `set_topic_attrs` to configure a public display name that will be visible to subscribers:
 
-```{r}
+
+```r
 library("aws.sns")
 topic <- create_topic(name = "TestTopic")
 set_topic_attrs(topic, attribute = c(DisplayName = "Publicly visible topic name"))
 ```
 
+```
+## list()
+## attr(,"RequestId")
+## [1] "4e055b41-adb6-5859-b6d1-167545652e16"
+```
+
 To add a subscription to a topic:
 
-```{r}
+
+```r
 subscribe(topic, "me@example.com", "email")
+```
+
+```
+## [1] "pending confirmation"
+## attr(,"RequestId")
+## [1] "83af083b-0bc0-5654-b443-450fe313e0b3"
+```
+
+```r
 #subscribe(topic, "1-111-555-1234", "sms") # SMS example
 ```
 
 You can confirm the status of subscriptions using `list_subscriptions`:
 
-```{r}
+
+```r
 list_subscriptions(topic)
+```
+
+```
+##         Endpoint        Owner Protocol     SubscriptionArn
+## 1 me@example.com 920667304251    email PendingConfirmation
+##                                       TopicArn
+## 1 arn:aws:sns:us-east-1:920667304251:TestTopic
 ```
 
 Subscriptions need to be confirmed by the endpoint. For example, an SMS endpoint will require an SMS response to an subscription invitation message. Subscriptions can be removed using `unsubscribe` (or whatever method is described in the invitation message); thus subscriptions can be handled by both users and administrator (you).
@@ -56,8 +81,15 @@ If they accept the invitation, the user will receive a confirmation of their sub
 
 To publish a message, use `publish`:
 
-```{r}
+
+```r
 publish(topic = topic, message = "This is a test message!", subject = "Hello!")
+```
+
+```
+## [1] "daec96f6-7e09-57bc-9533-dbc296ddc02c"
+## attr(,"RequestId")
+## [1] "9bcca33f-0a57-5b40-94d0-ee0be2830cd0"
 ```
 
 By default, the message is sent to all platforms:
@@ -67,13 +99,20 @@ By default, the message is sent to all platforms:
 
 This may not be ideal if multiple dissimilar endpoints are subscribed to the same topic (e.g., SMS and email). This can be resolved by maintaining separate Topics or, more easily, by sending different messages to each type of endpoint:
 
-```{r}
+
+```r
 msgs <- list()
 msgs$default = "This is the default message." # required
 msgs$email = "This is a test email that will be sent to email addresses only."
 msgs$sms = "This is a test SMS that will be sent to phone numbers only."
 msgs$http = "This is a test message that will be sent to http URLs only."
 publish(topic = topic, message = msgs, subject = "Hello!")
+```
+
+```
+## [1] "bc5f4554-b40d-585b-9a9f-08605cd92871"
+## attr(,"RequestId")
+## [1] "509bfe4e-68e5-5870-b930-b37a8031885a"
 ```
 
 In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).

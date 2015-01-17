@@ -18,7 +18,7 @@ unsubscribe <- function(subscription, ...) {
     out <- snsHTTP(query = query_list, ...)
     if(inherits(out, "aws_error"))
         return(out)
-    structure(out$UnsubscribeResponse$UnsubscribeResult, 
+    structure(TRUE, 
               RequestId = out$UnsubscribeResponse$ResponseMetadata$RequestId)
 }
 
@@ -42,7 +42,7 @@ set_subscription_attrs <- function(subscription, attribute, ...) {
     out <- snsHTTP(query = query_list, ...)
     if(inherits(out, "aws_error"))
         return(out)
-    structure(out$SetSubscriptionAttributesResponse$SetSubscriptionAttributesResult, 
+    structure(TRUE, 
               RequestId = out$SetSubscriptionAttributesResponse$ResponseMetadata$RequestId)
 }
 
@@ -65,7 +65,12 @@ list_subscriptions <- function(topic, token, ...) {
         out <- snsHTTP(query = query_list, ...)
         if(inherits(out, "aws_error"))
             return(out)
-        structure(out$ListSubscriptionsByTopicResponse$ListSubscriptionsByTopicResult$Subscriptions,
+        dat <- out$ListSubscriptionsByTopicResponse$ListSubscriptionsByTopicResult$Subscriptions
+        if(!length(dat)) {
+            dat <- setNames(as.data.frame(matrix(NA_character_, nrow=0, ncol=4), stringsAsFactors = FALSE), 
+                            c("Endpoint","Owner Protocol","SubscriptionArn","TopicArn"))
+        }
+        structure(dat,
                   NextToken = out$ListSubscriptionsByTopicResponse$ListSubscriptionsByTopicResultNextToken,
                   RequestId = out$ListSubscriptionsByTopicResponse$ResponseMetadata$RequestId)
     }

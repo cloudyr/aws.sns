@@ -9,7 +9,6 @@ create_topic <- function(name, ...) {
     if(inherits(out, "aws_error"))
         return(out)
     structure(out$CreateTopicResponse$CreateTopicResult$TopicArn,
-              class = "sns_topic",
               RequestId = out$CreateTopicResponse$ResponseMetadata$RequestId)
 }
 
@@ -17,7 +16,7 @@ delete_topic <- function(topic, ...) {
     out <- snsHTTP(query = list(TopicArn = topic, Action = "DeleteTopic"), ...)
     if(inherits(out, "aws_error"))
         return(out)
-    structure(list(), 
+    structure(TRUE, 
               RequestId = out$DeleteTopicResponse$ResponseMetadata$RequestId)
 }
 
@@ -40,7 +39,7 @@ set_topic_attrs <- function(topic, attribute, ...) {
     out <- snsHTTP(query = query_list, ...)
     if(inherits(out, "aws_error"))
         return(out)
-    structure(list(), 
+    structure(TRUE, 
               RequestId = out$SetTopicAttributesResponse$ResponseMetadata$RequestId)
 }
 
@@ -69,7 +68,7 @@ add_permission <- function(topic, label, permissions, ...) {
     out <- snsHTTP(query = query_list, ...)
     if(inherits(out, "aws_error"))
         return(out)
-    structure(out$AddPermissionResponse, 
+    structure(TRUE, 
               RequestId = out$AddPermissionResponse$ResponseMetadata$RequestId)
 }
 
@@ -78,6 +77,6 @@ remove_permission <- function(topic, label, ...) {
     out <- snsHTTP(query = query_list, ...)
     if(inherits(out, "aws_error"))
         return(out)
-    structure(out$RemovePermissionResponse, 
+    structure(TRUE, 
               RequestId = out$RemovePermissionResponse$ResponseMetadata$RequestId)
 }
