@@ -7,27 +7,27 @@ subscribe <- function(topic, endpoint, protocol, ...) {
     else
         query_list$Protocol <- protocol
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$SubscribeResponse, 
+    structure(out$SubscribeResponse$SubscribeResult$SubscriptionArn, 
               RequestId = out$SubscribeResponse$ResponseMetadata$RequestId)
 }
 
 unsubscribe <- function(subscription, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "Unsubscribe")
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$UnsubscribeResponse, 
+    structure(out$UnsubscribeResponse$UnsubscribeResult, 
               RequestId = out$UnsubscribeResponse$ResponseMetadata$RequestId)
 }
 
 get_subscription_attrs <- function(subscription, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "GetSubscriptionAttributes")
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$GetSubscriptionAttributesResponse, 
+    structure(out$GetSubscriptionAttributesResponse$GetSubscriptionAttributesResult$Attributes, 
               RequestId = out$GetSubscriptionAttributesResponse$ResponseMetadata$RequestId)
 }
 
@@ -40,9 +40,9 @@ set_subscription_attrs <- function(subscription, attribute, ...) {
         query_list$AttributeValue <- attribute[[1]]
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$SetSubscriptionAttributesResponse, 
+    structure(out$SetSubscriptionAttributesResponse$SetSubscriptionAttributesResult, 
               RequestId = out$SetSubscriptionAttributesResponse$ResponseMetadata$RequestId)
 }
 
@@ -53,7 +53,7 @@ list_subscriptions <- function(topic, token, ...) {
             query_list$NextToken <- token
         }
         out <- snsHTTP(query = query_list, ...)
-        if(inherits(out, "aws-error"))
+        if(inherits(out, "aws_error"))
             return(out)
         structure(out$ListSubscriptionsResponse$ListSubscriptionsResult,
                   RequestId = out$ListSubscriptionsResponse$ResponseMetadata$RequestId)
@@ -63,7 +63,7 @@ list_subscriptions <- function(topic, token, ...) {
             query_list$NextToken <- token
         }
         out <- snsHTTP(query = query_list, ...)
-        if(inherits(out, "aws-error"))
+        if(inherits(out, "aws_error"))
             return(out)
         structure(out$ListSubscriptionsByTopicResponse$ListSubscriptionsByTopicResult$Subscriptions,
                   NextToken = out$ListSubscriptionsByTopicResponse$ListSubscriptionsByTopicResultNextToken,

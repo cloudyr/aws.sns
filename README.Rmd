@@ -1,6 +1,6 @@
 # AWS SNS Client Package #
 
-**aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](http://aws.amazon.com/sns/) REST API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
+**aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](http://aws.amazon.com/sns/) API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
 
 ## Installation ##
 
@@ -17,7 +17,6 @@ install_github("cloudyr/aws.sns")
 ```
 
 To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
-```
 
 ## Code Examples ##
 
@@ -26,6 +25,7 @@ The main purpose of Amazon SNS is to be able to push messages to different endpo
 To create a topic, use `create_topic` and configure it using `set_topic_attrs`. The `name` argument in `create_topic` is a private label for you to keep track of topics. To use a topic, you need to use `set_topic_attrs` to configure a public display name that will be visible to subscribers:
 
 ```R
+library("aws.sns")
 topic <- create_topic(name = "TestTopic")
 set_topic_attrs(topic, attribute = c(DisplayName = "Publicly visible topic name"))
 ```
@@ -69,6 +69,7 @@ This may not be ideal if multiple dissimilar endpoints are subscribed to the sam
 
 ```R
 msgs <- list()
+msgs$default = "This is the default message." # required
 msgs$email = "This is a test email that will be sent to email addresses only."
 msgs$sms = "This is a test SMS that will be sent to phone numbers only."
 msgs$http = "This is a test message that will be sent to http URLs only."

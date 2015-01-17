@@ -5,8 +5,7 @@ snsHTTP <- function(query, region, key, secret, ...) {
         key <- Sys.getenv("AWS_ACCESS_KEY_ID")
     if(missing(secret))
         secret <- Sys.getenv("AWS_SECRET_ACCESS_KEY")
-    current <- Sys.time()
-    d_timestamp <- format(current, "%Y%m%dT%H%M%SZ", tz = "UTC")
+    d_timestamp <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC")
     if(key == "") {
         H <- add_headers(`x-amz-date` = d_timestamp)
     } else {

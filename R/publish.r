@@ -8,7 +8,7 @@ publish <- function(topic, target, message, subject, ...) {
     if(is.character(message)){
         query_list$Message <- message
     } else {
-        query_list$Message <- toJSON(message)
+        query_list$Message <- toJSON(message, auto_unbox = TRUE)
         query_list$MessageStructure <- "json"
     }
     if(!missing(subject)) {
@@ -21,8 +21,8 @@ publish <- function(topic, target, message, subject, ...) {
         query_list$Subject <- subject
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$PublishResponse, 
+    structure(out$PublishResponse$PublishResult$MessageId, 
               RequestId = out$PublishResponse$ResponseMetadata$RequestId)
 }

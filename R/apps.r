@@ -24,7 +24,7 @@ create_app <- function(name, platform, attribute, ...) {
         query_list <- c(query_list, n, p)
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$CreatePlatformApplicationResponse$CreatePlatformApplicationResult,
               RequestId = out$CreatePlatformApplicationResponse$ResponseMetadata$RequestId)
@@ -33,7 +33,7 @@ create_app <- function(name, platform, attribute, ...) {
 delete_app <- function(app, ...) {
     query_list <- list(Action = "DeletePlatformApplication", PlatformApplicationArn = app)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$DeletePlatformApplicationResponse$DeletePlatformApplicationResult,
               RequestId = out$DeletePlatformApplicationResponse$ResponseMetadata$RequestId)
@@ -42,7 +42,7 @@ delete_app <- function(app, ...) {
 get_app_attrs <- function(app, ...) {
     query_list <- list(Action = "GetPlatformApplicationAttributes", PlatformApplicationArn = app)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$GetPlatformApplicationAttributesResponse$GetPlatformApplicationAttributesResult,
               RequestId = out$GetPlatformApplicationAttributesResponse$ResponseMetadata$RequestId)
@@ -63,7 +63,7 @@ set_app_attrs <- function(app, attribute, ...) {
         query_list <- c(query_list, n, p)
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$SetPlatformApplicationAttributesResponse$SetPlatformApplicationAttributesResult,
               RequestId = out$SetPlatformApplicationAttributesResponse$ResponseMetadata$RequestId)
@@ -85,7 +85,7 @@ create_app_endpoint <- function(app, attribute, token, custom_data, ...) {
     if(!missing(custom_data))
         query_list$CustomUserData <- custom_data
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$CreatePlatformEndpointResponse$CreatePlatformEndpointResult,
               RequestId = out$CreatePlatformEndpointResponse$ResponseMetadata$RequestId)
@@ -94,7 +94,7 @@ create_app_endpoint <- function(app, attribute, token, custom_data, ...) {
 get_endpoint_attrs <- function(endpoint, ...) {
     query_list <- list(Action = "GetEndpointAttributes", EndpointArn = endpoint)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$GetEndpointAttributesResponse$GetEndpointAttributesResult,
               RequestId = out$GetEndpointAttributesResponse$ResponseMetadata$RequestId)
@@ -113,7 +113,7 @@ set_endpoint_attrs <- function(endpoint, attribute, ...) {
         query_list <- c(query_list, n, p)
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$SetEndpointAttributesResponse$SetEndpointAttributesResult,
               RequestId = out$SetEndpointAttributesResponse$ResponseMetadata$RequestId)
@@ -125,7 +125,7 @@ list_apps <- function(token, ...) {
         query_list$NextToken <- token
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$ListPlatformApplicationsResponse$ListPlatformApplicationsResult$PlatformApplications,
               NextToken = out$ListPlatformApplicationsResponse$ListPlatformApplicationsResult$NextToken,
@@ -138,7 +138,7 @@ list_app_endpoints <- function(app, token, ...) {
     } else {
         out <- snsHTTP(query = list(Action = "ListEndpointsByPlatformApplication", NextToken = token), ...)
     }
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$ListEndpointsByPlatformApplicationResponse$ListEndpointsByPlatformApplicationResult$Endpoints, 
               NextToken = out$ListEndpointsByPlatformApplicationResponse$ListEndpointsByPlatformApplicationResult$NextToken,

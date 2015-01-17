@@ -2,31 +2,30 @@ create_topic <- function(name, ...) {
     query_list <- list(Action = "CreateTopic")
     if(grepl("[[:space:]]", name))
         stop("'name' must not contain spaces")
-    if(nchar(name[1]) > 256 | nchar(name[1]) == 0) {
+    if(nchar(name[1]) > 256 | nchar(name[1]) == 0)
         stop("'name' must be between 1 and 256 ASCII characters")
-    } else {
-        query_list$Name <- name[1]
-    }
+    query_list$Name <- name[1]
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$CreateTopicResponse$CreateTopicResult$TopicArn,
+              class = "sns_topic",
               RequestId = out$CreateTopicResponse$ResponseMetadata$RequestId)
 }
 
 delete_topic <- function(topic, ...) {
     out <- snsHTTP(query = list(TopicArn = topic, Action = "DeleteTopic"), ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$DeleteTopicResponse, 
+    structure(list(), 
               RequestId = out$DeleteTopicResponse$ResponseMetadata$RequestId)
 }
 
 get_topic_attrs <- function(topic, ...) {
     out <- snsHTTP(query = list(TopicArn = topic, Action = "GetTopicAttributes"), ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$GetTopicAttributesResponse, 
+    structure(out$GetTopicAttributesResponse$GetTopicAttributesResult$Attributes, 
               RequestId = out$GetTopicAttributesResponse$ResponseMetadata$RequestId)
 }
 
@@ -39,9 +38,9 @@ set_topic_attrs <- function(topic, attribute, ...) {
         query_list$AttributeValue <- attribute[[1]]
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
-    structure(out$SetTopicAttributesResponse, 
+    structure(list(), 
               RequestId = out$SetTopicAttributesResponse$ResponseMetadata$RequestId)
 }
 
@@ -51,7 +50,7 @@ list_topics <- function(token, ...) {
     } else {
         out <- snsHTTP(query = list(Action = "ListTopics", NextToken = token), ...)
     }
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$ListTopicsResponse$ListTopicsResult$Topics, 
               NextToken = out$ListTopicsResponse$ListTopicsResult$NextToken,
@@ -68,7 +67,7 @@ add_permission <- function(topic, label, permissions, ...) {
     names(p) <- paste0("ActionName.member.", 1:sum(len))
     query_list <- c(query_list, n, p)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$AddPermissionResponse, 
               RequestId = out$AddPermissionResponse$ResponseMetadata$RequestId)
@@ -77,7 +76,7 @@ add_permission <- function(topic, label, permissions, ...) {
 remove_permission <- function(topic, label, ...) {
     query_list <- list(TopicArn = topic, Label = label, Action = "RemovePermission")
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws-error"))
+    if(inherits(out, "aws_error"))
         return(out)
     structure(out$RemovePermissionResponse, 
               RequestId = out$RemovePermissionResponse$ResponseMetadata$RequestId)
