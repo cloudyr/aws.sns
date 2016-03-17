@@ -30,7 +30,8 @@ about the request attempt.
 }
 \description{
 This is the workhorse function to execute calls to the SNS API.
-
+}
+\details{
 This function constructs and signs an SNS API request and returns the
 results thereof, or relevant debugging information in the case of error.
 }

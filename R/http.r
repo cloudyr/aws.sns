@@ -1,6 +1,6 @@
 #' @title Execute SNS API Request
 #' @description This is the workhorse function to execute calls to the SNS API.
-#' 
+#' @details 
 #' This function constructs and signs an SNS API request and returns the
 #' results thereof, or relevant debugging information in the case of error.
 #' 
@@ -27,7 +27,7 @@ snsHTTP <- function(query,
                     key = Sys.getenv("AWS_ACCESS_KEY_ID"), 
                     secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"), ...) {
     d_timestamp <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC")
-    if(key == "") {
+    if (key == "") {
         H <- add_headers(`x-amz-date` = d_timestamp)
     } else {
         S <- signature_v4_auth(
@@ -46,10 +46,11 @@ snsHTTP <- function(query,
                          Authorization = S$SignatureHeader)
     }
     r <- GET(paste0("https://sns.",region,".amazonaws.com"), H, query = query, ...)
-    if(http_status(r)$category == "client error") {
+    if (http_status(r)$category == "client error") {
         x <- try(xmlToList(xmlParse(content(r, "text"))), silent = TRUE)
-        if(inherits(x, "try-error"))
+        if (inherits(x, "try-error")) {
             x <- try(fromJSON(content(r, "text"))$Error, silent = TRUE)
+        }
         warn_for_status(r)
         h <- headers(r)
         out <- structure(x, headers = h, class = "aws_error")

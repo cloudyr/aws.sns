@@ -27,7 +27,7 @@ Delete an existing topic.
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.htmlCreateTopic}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html}{CreateTopic}
 }
 \seealso{
 \code{link{create_topic}}

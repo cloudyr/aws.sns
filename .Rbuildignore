@@ -1,2 +1,4 @@
 .travis.yml
 README.Rmd
+drat.sh
+knitreadme.sh

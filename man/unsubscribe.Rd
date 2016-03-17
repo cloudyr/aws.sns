@@ -27,7 +27,7 @@ Unsubscribes an endpoint from an SNS topic.
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.htmlUnsubscribe}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.html}{Unsubscribe}
 }
 \seealso{
 \code{link{unsubscribe}} \code{\link{list_subscriptions}}

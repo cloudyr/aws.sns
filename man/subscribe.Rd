@@ -39,7 +39,7 @@ administrator (you).
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_Subscribe.htmlSubscribe}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html}{Subscribe}
 }
 \seealso{
 \code{link{unsubscribe}} \code{\link{list_subscriptions}}

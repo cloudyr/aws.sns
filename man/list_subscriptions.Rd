@@ -33,7 +33,7 @@ additional results.
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.htmlListSubscriptions}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.html}{ListSubscriptions}
 }
 \seealso{
 \code{link{subscribe}} \code{link{unsubscribe}}

@@ -1,7 +1,6 @@
-#' Subscribe to a topic
-#' 
-#' Subscribes an endpoint to the specified SNS topic.
-#' 
+#' @title Subscribe to a topic
+#' @description Subscribes an endpoint to the specified SNS topic.
+#' @details 
 #' Initiates a subscription of an endpoint to an SNS topic. For example, this
 #' is used to add an email address endpoint to a topic. Subscriptions need to
 #' be confirmed by the endpoint. For example, an SMS endpoint will require an
@@ -23,7 +22,7 @@
 #' @author Thomas J. Leeper
 #' @seealso \code{link{unsubscribe}} \code{\link{list_subscriptions}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Subscribe.htmlSubscribe}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html}{Subscribe}
 #' @export
 subscribe <- function(topic, endpoint, protocol, ...) {
     query_list <- list(TopicArn = topic, Action = "Subscribe")
@@ -41,12 +40,9 @@ subscribe <- function(topic, endpoint, protocol, ...) {
 }
 
 
-#' Unsubscribe from a topic
-#' 
-#' Cancels an endpoint's subscription to a topic.
-#' 
-#' Unsubscribes an endpoint from an SNS topic.
-#' 
+#' @title Unsubscribe from a topic
+#' @description Cancels an endpoint's subscription to a topic.
+#' @details Unsubscribes an endpoint from an SNS topic.
 #' @param subscription A character string containing an SNS Subscription Amazon
 #' Resource Name (ARN).
 #' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
@@ -56,7 +52,7 @@ subscribe <- function(topic, endpoint, protocol, ...) {
 #' @author Thomas J. Leeper
 #' @seealso \code{link{unsubscribe}} \code{\link{list_subscriptions}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.htmlUnsubscribe}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.html}{Unsubscribe}
 #' @export
 unsubscribe <- function(subscription, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "Unsubscribe")
@@ -69,7 +65,6 @@ unsubscribe <- function(subscription, ...) {
 
 #' @rdname get_subscription_attrs
 #' @title Get/set subscription attributes
-#' @aliases get_subscription_attrs set_subscription_attrs
 #' @description Get or set subscription attributes
 #' @details 
 #' \code{get_subscription_attrs} retrieves subscription attributes, while
@@ -90,8 +85,8 @@ unsubscribe <- function(subscription, ...) {
 #' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
 #' \code{link{list_subscriptions}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.htmlGetSubscriptionAttributes}
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.htmlSetSubscriptionAttributes}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html}{GetSubscriptionAttributes}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.html}{SetSubscriptionAttributes}
 #' @export
 get_subscription_attrs <- function(subscription, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "GetSubscriptionAttributes")
@@ -121,10 +116,9 @@ set_subscription_attrs <- function(subscription, attribute, ...) {
 
 
 
-#' List subscriptions for a topic
-#' 
-#' Lists subscriptions for a specified topic
-#' 
+#' @title List subscriptions for a topic
+#' @description Lists subscriptions for a specified topic
+#' @details 
 #' Lists subscriptions for a specified topic. Up to 100 subscriptions are
 #' returned by each request. The \code{token} argument can be used to return
 #' additional results.
@@ -142,28 +136,30 @@ set_subscription_attrs <- function(subscription, attribute, ...) {
 #' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
 #' \code{link{get_subscription_attrs}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.htmlListSubscriptions}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.html}{ListSubscriptions}
 list_subscriptions <- function(topic, token, ...) {
-    if(missing(topic)) {
+    if (missing(topic)) {
         query_list <- list(Action = "ListSubscriptions")
-        if(!missing(token)) {
+        if (!missing(token)) {
             query_list$NextToken <- token
         }
         out <- snsHTTP(query = query_list, ...)
-        if(inherits(out, "aws_error"))
+        if (inherits(out, "aws_error")) {
             return(out)
+        }
         structure(out$ListSubscriptionsResponse$ListSubscriptionsResult,
                   RequestId = out$ListSubscriptionsResponse$ResponseMetadata$RequestId)
     } else {
         query_list <- list(Action = "ListSubscriptionsByTopic", TopicArn = topic)
-        if(!missing(token)) {
+        if (!missing(token)) {
             query_list$NextToken <- token
         }
         out <- snsHTTP(query = query_list, ...)
-        if(inherits(out, "aws_error"))
+        if (inherits(out, "aws_error")) {
             return(out)
+        }
         dat <- out$ListSubscriptionsByTopicResponse$ListSubscriptionsByTopicResult$Subscriptions
-        if(!length(dat)) {
+        if (!length(dat)) {
             dat <- setNames(as.data.frame(matrix(NA_character_, nrow=0, ncol=4), stringsAsFactors = FALSE), 
                             c("Endpoint","Owner Protocol","SubscriptionArn","TopicArn"))
         }

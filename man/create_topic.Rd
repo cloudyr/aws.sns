@@ -27,7 +27,7 @@ Create a new topic. The \code{name} is a private name for the topic. Use
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.htmlCreateTopic}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html}{CreateTopic}
 }
 \seealso{
 \code{link{delete_topic}}

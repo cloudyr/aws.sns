@@ -37,7 +37,7 @@ use an SNS topic.
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_AddPermission.htmlAddPermission}
-\href{http://docs.aws.amazon.com/sns/latest/api/API_RemovePermission.htmlRemovePermission}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html}{AddPermission}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_RemovePermission.html}{RemovePermission}
 }
 

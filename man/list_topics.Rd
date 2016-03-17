@@ -29,7 +29,7 @@ Lists topics. Up to 100 subscriptions are returned by each request. The
 Thomas J. Leeper
 }
 \references{
-\href{http://docs.aws.amazon.com/sns/latest/api/API_ListTopics.htmlListTopics}
+\href{http://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html}{ListTopics}
 }
 \seealso{
 \code{link{subscribe}} \code{link{unsubscribe}}

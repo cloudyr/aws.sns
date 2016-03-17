@@ -1,19 +1,19 @@
 create_app <- function(name, platform, attribute, ...) {
     query_list <- list(Action = "CreatePlatformApplication")
-    if(nchar(name[1]) > 256 | nchar(name[1]) == 0) {
+    if (nchar(name[1]) > 256 | nchar(name[1]) == 0) {
         stop("name must be between 1 and 256 ASCII characters")
     } else {
         query_list$Name <- name[1]
     }
     plist <- c("ADM", "APNS", "APNS_SANDBOX", "GCM")
-    if(!platform[1] %in% plist) {
+    if (!platform[1] %in% plist) {
         stop(paste0("Platform must be one of ", paste0("'",plist,"'",collapse=", ")))
     } else {
         query_list$Platform <- platform[1]
     }
     plist <- c("PlatformCredential", "PlatformPrincipal", "EventEndpointCreated", 
                "EventEndpointDeleted", "EventEndpointUpdated", "EventDeliveryFailure")
-    if(any(!names(attribute) %in% plist)) {
+    if (any(!names(attribute) %in% plist)) {
         stop(paste0("Attribute names must be one of ", paste0("'",plist,"'",collapse=", ")))
     } else {
         len <- sapply(attribute, length)
@@ -24,8 +24,9 @@ create_app <- function(name, platform, attribute, ...) {
         query_list <- c(query_list, n, p)
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$CreatePlatformApplicationResponse$CreatePlatformApplicationResult,
               RequestId = out$CreatePlatformApplicationResponse$ResponseMetadata$RequestId)
 }
@@ -33,8 +34,9 @@ create_app <- function(name, platform, attribute, ...) {
 delete_app <- function(app, ...) {
     query_list <- list(Action = "DeletePlatformApplication", PlatformApplicationArn = app)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$DeletePlatformApplicationResponse$DeletePlatformApplicationResult,
               RequestId = out$DeletePlatformApplicationResponse$ResponseMetadata$RequestId)
 }
@@ -42,8 +44,9 @@ delete_app <- function(app, ...) {
 get_app_attrs <- function(app, ...) {
     query_list <- list(Action = "GetPlatformApplicationAttributes", PlatformApplicationArn = app)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$GetPlatformApplicationAttributesResponse$GetPlatformApplicationAttributesResult,
               RequestId = out$GetPlatformApplicationAttributesResponse$ResponseMetadata$RequestId)
 }
@@ -52,7 +55,7 @@ set_app_attrs <- function(app, attribute, ...) {
     query_list <- list(Action = "SetPlatformApplicationAttributes", PlatformApplicationArn = app)
     plist <- c("PlatformCredential", "PlatformPrincipal", "EventEndpointCreated", "EventEndpointDeleted",
                "EventEndpointUpdated", "EventDeliveryFailure")
-    if(any(!names(attribute) %in% plist)) {
+    if (any(!names(attribute) %in% plist)) {
         stop(paste0("Attribute names must be one of ", paste0("'",plist,"'",collapse=", ")))
     } else {
         len <- sapply(attribute, length)
@@ -63,15 +66,16 @@ set_app_attrs <- function(app, attribute, ...) {
         query_list <- c(query_list, n, p)
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$SetPlatformApplicationAttributesResponse$SetPlatformApplicationAttributesResult,
               RequestId = out$SetPlatformApplicationAttributesResponse$ResponseMetadata$RequestId)
 }
 
 create_app_endpoint <- function(app, attribute, token, custom_data, ...) {
     query_list <- list(Action = "CreatePlatformEndpoint", PlatformApplicationArn = app)
-    if(any(!names(attribute) %in% c("CustomUserData", "Enabled", "Token"))) {
+    if (any(!names(attribute) %in% c("CustomUserData", "Enabled", "Token"))) {
         warnings("Unrecognized attribute names. Should be 'CustomUserData', 'Enabled', or 'Token'")
     } else {
         len <- sapply(attribute, length)
@@ -82,11 +86,13 @@ create_app_endpoint <- function(app, attribute, token, custom_data, ...) {
         query_list <- c(query_list, n, p)
     }
     query_list$Token <- token
-    if(!missing(custom_data))
+    if (!missing(custom_data)) {
         query_list$CustomUserData <- custom_data
+    }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$CreatePlatformEndpointResponse$CreatePlatformEndpointResult,
               RequestId = out$CreatePlatformEndpointResponse$ResponseMetadata$RequestId)
 }
@@ -94,15 +100,16 @@ create_app_endpoint <- function(app, attribute, token, custom_data, ...) {
 get_endpoint_attrs <- function(endpoint, ...) {
     query_list <- list(Action = "GetEndpointAttributes", EndpointArn = endpoint)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$GetEndpointAttributesResponse$GetEndpointAttributesResult,
               RequestId = out$GetEndpointAttributesResponse$ResponseMetadata$RequestId)
 }
 
 set_endpoint_attrs <- function(endpoint, attribute, ...) {
     query_list <- list(Action = "SetEndpointAttributes", EndpointArn = endpoint)
-    if(any(!names(attribute) %in% c("CustomUserData", "Enabled", "Token"))) {
+    if (any(!names(attribute) %in% c("CustomUserData", "Enabled", "Token"))) {
         warning("Unrecognized attribute names. Should be 'CustomUserData', 'Enabled', or 'Token'")
     } else {
         len <- sapply(attribute, length)
@@ -121,12 +128,13 @@ set_endpoint_attrs <- function(endpoint, attribute, ...) {
 
 list_apps <- function(token, ...) {
     query_list <- list(Action = "ListPlatformApplications")
-    if(!missing(token)) {
+    if (!missing(token)) {
         query_list$NextToken <- token
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$ListPlatformApplicationsResponse$ListPlatformApplicationsResult$PlatformApplications,
               NextToken = out$ListPlatformApplicationsResponse$ListPlatformApplicationsResult$NextToken,
               RequestId = out$ListPlatformApplicationsResponse$ResponseMetadata$RequestId)

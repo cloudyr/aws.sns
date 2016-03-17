@@ -1,7 +1,6 @@
-#' Create a topic
-#' 
-#' Create an SNS topic
-#' 
+#' @title Create a topic
+#' @description Create an SNS topic
+#' @details 
 #' Create a new topic. The \code{name} is a private name for the topic. Use
 #' \code{\link{set_topic_attrs}} to set a publicly visible name for the topic.
 #' 
@@ -14,18 +13,21 @@
 #' @author Thomas J. Leeper
 #' @seealso \code{link{delete_topic}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.htmlCreateTopic}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html}{CreateTopic}
 #' @export
 create_topic <- function(name, ...) {
     query_list <- list(Action = "CreateTopic")
-    if(grepl("[[:space:]]", name))
+    if (grepl("[[:space:]]", name)) {
         stop("'name' must not contain spaces")
-    if(nchar(name[1]) > 256 | nchar(name[1]) == 0)
+    }
+    if (nchar(name[1]) > 256 | nchar(name[1]) == 0) {
         stop("'name' must be between 1 and 256 ASCII characters")
+    }
     query_list$Name <- name[1]
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$CreateTopicResponse$CreateTopicResult$TopicArn,
               RequestId = out$CreateTopicResponse$ResponseMetadata$RequestId)
 }
@@ -43,63 +45,55 @@ create_topic <- function(name, ...) {
 #' @author Thomas J. Leeper
 #' @seealso \code{link{create_topic}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.htmlCreateTopic}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html}{CreateTopic}
 #' @export
 delete_topic <- function(topic, ...) {
     out <- snsHTTP(query = list(TopicArn = topic, Action = "DeleteTopic"), ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(TRUE, 
               RequestId = out$DeleteTopicResponse$ResponseMetadata$RequestId)
 }
 
 #' @rdname get_topic_attrs
-#' @title Get/set subscription attributes
-#' @aliases get_subscription_attrs set_subscription_attrs
-#' @description Get or set subscription attributes
+#' @title Get/set topic attributes
+#' @description Get or set topic attributes
 #' @details
-#' \code{get_subscription_attrs} retrieves subscription attributes, while
-#' \code{set_subscription_attrs} can be used to set those attributes.
+#' \code{get_topic_attrs} retrieves topic attributes, while \code{set_topic_attrs} can be used to set those attributes.
 #' 
-#' @param subscription A character string containing an SNS Subscription Amazon
-#' Resource Name (ARN).
-#' @param attribute A named, single-element list containing a subscription
-#' attribute. Name must be either \dQuote{DeliveryPolicy} or
-#' \dQuote{RawMessageDelivery}.
+#' @param topic A character string containing an SNS Topic Amazon Resource Name (ARN).
+#' @param attribute A named, single-element list containing a topic attribute. Name must be either \dQuote{Policy}, \dQuote{DeliveryPolicy}, or \dQuote{DisplayName}.
 #' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
-#' @return If successful, for \code{get_subscription_attrs}: a named list
-#' containing some details of the request, for \code{set_subscription_attrs}: a
-#' logical \code{TRUE} value. Otherwise, a data structure of class
-#' \dQuote{aws_error} containing any error message(s) from AWS and information
-#' about the request attempt.
+#' @return If successful, for \code{get_topic_attrs}: a named list containing some details of the request, for \code{set_topic_attrs}: a logical \code{TRUE} value. Otherwise, a data structure of class \dQuote{aws_error} containing any error message(s) from AWS and information about the request attempt.
 #' @author Thomas J. Leeper
-#' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
-#' \code{link{list_subscriptions}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.htmlGetSubscriptionAttributes}
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.htmlSetSubscriptionAttributes}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_GetTopicAttributes.html}{GetTopicAttributes}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html}{SetTopicAttributes}
 #' @export
 get_topic_attrs <- function(topic, ...) {
     out <- snsHTTP(query = list(TopicArn = topic, Action = "GetTopicAttributes"), ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$GetTopicAttributesResponse$GetTopicAttributesResult$Attributes, 
               RequestId = out$GetTopicAttributesResponse$ResponseMetadata$RequestId)
 }
 
-#' @rdname get_subscription_attrs
+#' @rdname get_topic_attrs
 #' @export
 set_topic_attrs <- function(topic, attribute, ...) {
     query_list <- list(TopicArn = topic, Action = "SetTopicAttributes")
-    if(any(!names(attributes) %in% c("Policy","DisplayName","DeliveryPolicy")))
+    if (any(!names(attributes) %in% c("Policy","DisplayName","DeliveryPolicy"))) {
         stop("Attribute name must be 'Policy', 'DiplayName', or 'DeliveryPolicy'")
-    else {
+    } else {
         query_list$AttributeName <- names(attribute)[1]
         query_list$AttributeValue <- attribute[[1]]
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(TRUE, 
               RequestId = out$SetTopicAttributesResponse$ResponseMetadata$RequestId)
 }
@@ -107,10 +101,9 @@ set_topic_attrs <- function(topic, attribute, ...) {
 
 
 
-#' List subscriptions for a topic
-#' 
-#' Lists subscriptions for a specified topic
-#' 
+#' @title List subscriptions for a topic
+#' @description Lists subscriptions for a specified topic
+#' @details 
 #' Lists topics. Up to 100 subscriptions are returned by each request. The
 #' \code{token} argument can be used to return additional results.
 #' 
@@ -125,15 +118,16 @@ set_topic_attrs <- function(topic, attribute, ...) {
 #' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
 #' \code{link{get_subscription_attrs}}
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_ListTopics.htmlListTopics}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html}{ListTopics}
 list_topics <- function(token, ...) {
-    if(missing(token)) {
+    if (missing(token)) {
         out <- snsHTTP(query = list(Action = "ListTopics"), ...)
     } else {
         out <- snsHTTP(query = list(Action = "ListTopics", NextToken = token), ...)
     }
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$ListTopicsResponse$ListTopicsResult$Topics, 
               NextToken = out$ListTopicsResponse$ListTopicsResult$NextToken,
               RequestId = out$ListTopicsResponse$ResponseMetadata$RequestId)
@@ -158,8 +152,8 @@ list_topics <- function(token, ...) {
 #' information about the request attempt.
 #' @author Thomas J. Leeper
 #' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_AddPermission.htmlAddPermission}
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_RemovePermission.htmlRemovePermission}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html}{AddPermission}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_RemovePermission.html}{RemovePermission}
 #' @export
 add_permission <- function(topic, label, permissions, ...) {
     query_list <- list(TopicArn = topic, Label = label, Action = "AddPermission")
@@ -171,8 +165,9 @@ add_permission <- function(topic, label, permissions, ...) {
     names(p) <- paste0("ActionName.member.", 1:sum(len))
     query_list <- c(query_list, n, p)
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(TRUE, 
               RequestId = out$AddPermissionResponse$ResponseMetadata$RequestId)
 }
@@ -182,8 +177,9 @@ add_permission <- function(topic, label, permissions, ...) {
 remove_permission <- function(topic, label, ...) {
     query_list <- list(TopicArn = topic, Label = label, Action = "RemovePermission")
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(TRUE, 
               RequestId = out$RemovePermissionResponse$ResponseMetadata$RequestId)
 }
