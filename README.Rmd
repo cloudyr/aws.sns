@@ -83,7 +83,14 @@ It is also possible to give other AWS accounts permission to view or publish to 
 [![Travis Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) 
 [![codecov.io](http://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/aws.sns?branch=master)
 
-To install the latest development version from GitHub, run the following:
+This package is not yet on CRAN. To install the latest development version you can install from the cloudyr drat repository:
+
+```R
+# latest stable version
+install.packages("aws.sns", repos = c(getOption("repos"), "http://cloudyr.github.io/drat"))
+```
+
+Or, to pull a potentially unstable version directly from GitHub:
 
 ```R
 if(!require("ghit")){
@@ -91,9 +98,6 @@ if(!require("ghit")){
 }
 ghit::install_github("cloudyr/aws.sns")
 ```
-
-To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
-
 
 ---
 [![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
