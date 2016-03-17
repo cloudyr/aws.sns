@@ -1,3 +1,30 @@
+#' @title Publish to a topic or endpoint
+#' @description Publish a message to a specified topic or application endpoint.
+#' @details 
+#' Publishes a message to a topic or an application endpoint. Messages can be
+#' the same for all endpoints or customized so that, for example, a short
+#' 140-character message is sent to SMS endpoints that are subscribed to a
+#' topic while longer messages are sent to email endpoints, etc. The allowed
+#' message types are: default, email, email-json, sqs, sms, http, https, and
+#' application.
+#' 
+#' @param topic Optionally, a character string containing an SNS Topic Amazon
+#' Resource Name (ARN). Must specify \code{topic} or \code{endpoint}.
+#' @param endpoint Optionally, a character string containing an SNS Application
+#' Endpoint ARN. Must specify \code{topic} or \code{endpoint}.
+#' @param message Either a single character string containing a message to be
+#' sent to all endpoints, or a named list of messages to be sent to specific
+#' endpoints (where the names of each element correspond to endpoints).
+#' @param subject Optionally, a character string containing a subject line
+#' (e.g., to be used for an email endpoint).
+#' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
+#' @return If successful, a character string containing a message ID.
+#' Otherwise, a data structure of class \dQuote{aws_error} containing any error
+#' message(s) from AWS and information about the request attempt.
+#' @author Thomas J. Leeper
+#' @references
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Publish.htmlPublish}
+#' @export
 publish <- function(topic, endpoint, message, subject, ...) {
     if(!missing(topic))
         query_list <- list(TopicArn = topic, Action = "Publish")

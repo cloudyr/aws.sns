@@ -1,12 +1,18 @@
 Package: aws.sns
 Type: Package
 Title: AWS SNS Client Package
-Version: 0.1.1
+Version: 0.1.2
 Date: 2016-03-17
 Author: Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
-Description: A simple client package for the Amazon Web Services (AWS) Simple Notification Service (SNS) API.
+Description: A simple client package for the Amazon Web Services (AWS) Simple
+    Notification Service (SNS) API.
 License: GPL (>= 2)
-Imports: httr, XML, jsonlite, aws.signature
+Imports:
+    httr,
+    XML,
+    jsonlite,
+    aws.signature
 URL: https://github.com/cloudyr/aws.sns
 BugReports: https://github.com/cloudyr/aws.sns/issues
+RoxygenNote: 5.0.1.9000
