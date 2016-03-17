@@ -2,22 +2,6 @@
 
 **aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](http://aws.amazon.com/sns/) API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
 
-## Installation ##
-
-[![Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns)
-
-To install the latest development version from GitHub, run the following:
-
-```R
-if(!require("devtools")){
-    install.packages("devtools")
-    library("devtools")
-}
-install_github("cloudyr/aws.sns")
-```
-
-To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
-
 ## Code Examples ##
 
 The main purpose of Amazon SNS is to be able to push messages to different endpoints (e.g., Email, SMS, a Simple Queue Service queue, etc.). To do this, you have to create a *topic*, *subscribe* different endpoints (e.g., user email addresses) to that topic, and then *publish* to the topic. You can subscribe different types of endpoints to the same topic and, similarly, publish different messages to each type of endpoint simultaneously.
@@ -118,6 +102,23 @@ publish(topic = topic, message = msgs, subject = "Hello!")
 In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 It is also possible to give other AWS accounts permission to view or publish to a topic using `add_permission`. For example, you may want to have multiple administrators who share responsibility for publishing messages to the topic. Permissions can be revoked using `remove_permission`.
+
+## Installation ##
+
+[![CRAN](http://www.r-pkg.org/badges/version/aws.sns)](http://cran.r-project.org/package=aws.sns)
+[![Travis Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) 
+[![codecov.io](http://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/aws.sns?branch=master)
+
+To install the latest development version from GitHub, run the following:
+
+```R
+if(!require("ghit")){
+    install.packages("ghit")
+}
+ghit::install_github("cloudyr/aws.sns")
+```
+
+To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
 
 ---
 [![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)

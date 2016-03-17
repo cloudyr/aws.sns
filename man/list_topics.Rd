@@ -3,7 +3,7 @@
 \title{List subscriptions for a topic}
 \description{Lists subscriptions for a specified topic}
 \usage{
-list_topics(topic, token, ...)
+list_topics(token, ...)
 }
 \arguments{
   \item{token}{A paging paramter used to return additional pages of results. This will be available in the \dQuote{NextToken} attribute of a previous call to \code{list_topics}.}

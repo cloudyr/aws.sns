@@ -1,5 +1,5 @@
 create_app <- function(name, platform, attribute, ...) {
-    query_list <- list(Action = "CreatePlatformApplication", PlatformApplicationArn = app)
+    query_list <- list(Action = "CreatePlatformApplication")
     if(nchar(name[1]) > 256 | nchar(name[1]) == 0) {
         stop("name must be between 1 and 256 ASCII characters")
     } else {

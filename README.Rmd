@@ -2,23 +2,6 @@
 
 **aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](http://aws.amazon.com/sns/) API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
 
-## Installation ##
-
-[![CRAN](http://www.r-pkg.org/badges/version/aws.sns)](http://cran.r-project.org/package=aws.sns)
-[![Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) [![codecov.io](http://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/aws.sns?branch=master)
-
-To install the latest development version from GitHub, run the following:
-
-```R
-if(!require("devtools")){
-    install.packages("devtools")
-    library("devtools")
-}
-install_github("cloudyr/aws.sns")
-```
-
-To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
-
 To use the package, you will need an AWS account and enter your credentials into R. Your keypair can be generated on the [IAM Management Console](https://console.aws.amazon.com/iam/home?#security_credential) under the heading *Access Keys*. Note that you only have access to your secret key once. After it is generated, you need to save it in a secure location. New keypairs can be generated at any time if yours has been lost, stolen, or forgotten. 
 
 By default, all **cloudyr** packages look for the access key ID and secret access key in environment variables. You can also use this to specify a default region. For example:
@@ -93,6 +76,24 @@ publish(topic = topic, message = msgs, subject = "Hello!")
 In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 It is also possible to give other AWS accounts permission to view or publish to a topic using `add_permission`. For example, you may want to have multiple administrators who share responsibility for publishing messages to the topic. Permissions can be revoked using `remove_permission`.
+
+## Installation ##
+
+[![CRAN](http://www.r-pkg.org/badges/version/aws.sns)](http://cran.r-project.org/package=aws.sns)
+[![Travis Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) 
+[![codecov.io](http://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/aws.sns?branch=master)
+
+To install the latest development version from GitHub, run the following:
+
+```R
+if(!require("ghit")){
+    install.packages("ghit")
+}
+ghit::install_github("cloudyr/aws.sns")
+```
+
+To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
+
 
 ---
 [![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)

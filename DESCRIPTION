@@ -1,8 +1,8 @@
 Package: aws.sns
 Type: Package
 Title: AWS SNS Client Package
-Version: 0.1
-Date: 2015-01-17
+Version: 0.1.1
+Date: 2016-03-17
 Author: Thomas J. Leeper
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Description: A simple client package for the Amazon Web Services (AWS) Simple Notification Service (SNS) API.
