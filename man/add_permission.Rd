@@ -10,28 +10,22 @@ add_permission(topic, label, permissions, ...)
 remove_permission(topic, label, ...)
 }
 \arguments{
-\item{topic}{A character string containing an SNS Topic Amazon Resource Name
-(ARN).}
+\item{topic}{A character string containing an SNS Topic Amazon Resource Name (ARN).}
 
 \item{label}{A character string containing a label for the permission.}
 
-\item{permissions}{A named list of character strings, where the names of the
-list are AWS Account ID numbers and the list elements are SNS API endpoints
-(e.g. \dQuote{Publish}, \dQuote{Subscribe}, \dQuote{Unsubscribe}, etc.).}
+\item{permissions}{A named list of character strings, where the names of the list are AWS Account ID numbers and the list elements are SNS API endpoints (e.g. \dQuote{Publish}, \dQuote{Subscribe}, \dQuote{Unsubscribe}, etc.).}
 
 \item{...}{Additional arguments passed to \code{\link{snsHTTP}}.}
 }
 \value{
-If successful, a logical \code{TRUE}. Otherwise, a data structure of
-class \dQuote{aws_error} containing any error message(s) from AWS and
-information about the request attempt.
+If successful, a logical \code{TRUE}. Otherwise, a data structure of class \dQuote{aws_error} containing any error message(s) from AWS and information about the request attempt.
 }
 \description{
 Add/remove permissions to publish to topic
 }
 \details{
-Add or remove a permission, which grants another AWS account permission to
-use an SNS topic.
+Add or remove a permission, which grants another AWS account permission to use an SNS topic.
 }
 \author{
 Thomas J. Leeper

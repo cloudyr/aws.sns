@@ -6,34 +6,30 @@
 \usage{
 snsHTTP(query, region = Sys.getenv("AWS_DEFAULT_REGION", "us-east-1"),
   key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"), ...)
+  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
+  session_token = Sys.getenv("AWS_SESSION_TOKEN"), ...)
 }
 \arguments{
-\item{query}{An optional named list containing query string parameters and
-their character values.}
+\item{query}{An optional named list containing query string parameters and their character values.}
 
-\item{region}{A character string containing an AWS region. If missing, the
-default \dQuote{us-east-1} is used.}
+\item{region}{A character string containing an AWS region. If missing, the default \dQuote{us-east-1} is used.}
 
-\item{key}{A character string containing an AWS Access Key ID. The default
-is pulled from environment variable \dQuote{AWS_ACCESS_KEY_ID}.}
+\item{key}{A character string containing an AWS Access Key ID. The default is pulled from environment variable \dQuote{AWS_ACCESS_KEY_ID}.}
 
-\item{secret}{A character string containing an AWS Secret Access Key. The
-default is pulled from environment variable \dQuote{AWS_SECRET_ACCESS_KEY}.}
+\item{secret}{A character string containing an AWS Secret Access Key. The default is pulled from environment variable \dQuote{AWS_SECRET_ACCESS_KEY}.}
+
+\item{session_token}{Optionally, a character string containing an AWS temporary Session Token. If missing, defaults to value stored in environment variable \dQuote{AWS_SESSION_TOKEN}.}
 
 \item{...}{Additional arguments passed to \code{\link[httr]{GET}}.}
 }
 \value{
-If successful, a named list. Otherwise, a data structure of class
-\dQuote{aws-error} containing any error message(s) from AWS and information
-about the request attempt.
+If successful, a named list. Otherwise, a data structure of class \dQuote{aws-error} containing any error message(s) from AWS and information about the request attempt.
 }
 \description{
 This is the workhorse function to execute calls to the SNS API.
 }
 \details{
-This function constructs and signs an SNS API request and returns the
-results thereof, or relevant debugging information in the case of error.
+This function constructs and signs an SNS API request and returns the results thereof, or relevant debugging information in the case of error.
 }
 \author{
 Thomas J. Leeper

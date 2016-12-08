@@ -1,64 +1,60 @@
-#' @title Subscribe to a topic
+#' @rdname subscriptions
+#' @title Subscribe/Unsubscribe to a topic
 #' @description Subscribes an endpoint to the specified SNS topic.
-#' @details 
-#' Initiates a subscription of an endpoint to an SNS topic. For example, this
-#' is used to add an email address endpoint to a topic. Subscriptions need to
-#' be confirmed by the endpoint. For example, an SMS endpoint will require an
-#' SMS response to an subscription invitation message. Subscriptions can be
-#' removed using \code{\link{unsubscribe}} (or whatever method is described in
-#' the invitation message); thus subscriptions can be handled by both users and
-#' administrator (you).
-#' 
-#' @param topic A character string containing an SNS Topic Amazon Resource Name
-#' (ARN).
-#' @param endpoint A character string containing the endpoint to be subscribed
-#' (e.g., an email address).
-#' @param protocol The allowed protocol types are: default, email, email-json,
-#' sqs, sms, http, https, and application.
+#' @param topic A character string containing an SNS Topic Amazon Resource Name (ARN).
+#' @param endpoint A character string containing the endpoint to be subscribed (e.g., an email address).
+#' @param protocol The allowed protocol types are: default, email, email-json, sqs, sms, http, https, and application.
+#' @param subscription A character string containing an SNS Subscription Amazon Resource Name (ARN).
 #' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
-#' @return If successful, a character string containing a subscription ARN.
-#' Otherwise, a data structure of class \dQuote{aws_error} containing any error
-#' message(s) from AWS and information about the request attempt.
+#' @return If successful, a character string containing a subscription ARN. Otherwise, a data structure of class \dQuote{aws_error} containing any error message(s) from AWS and information about the request attempt.
+#' @details 
+#' \code{subscribe} initiates a subscription of an endpoint to an SNS topic. For example, this is used to add an email address endpoint to a topic. Subscriptions need to be confirmed by the endpoint. For example, an SMS endpoint will require an SMS response to an subscription invitation message. Subscriptions can be removed using \code{\link{unsubscribe}} (or whatever method is described in the invitation message); thus subscriptions can be handled by both users and administrator (you).
+#' 
+#' \code{unsubscribe} unsubscribes an endpoint from an SNS topic.
 #' @author Thomas J. Leeper
-#' @seealso \code{link{unsubscribe}} \code{\link{list_subscriptions}}
+#' @examples
+#' \dontrun{
+#'   top <- create_topic("new_topic")
+#'   # email subscription
+#'   subscribe(top, "example@example.com", protocol = "email")
+#' 
+#'   # sms subscription
+#'   subscribe(top, "555-123-4567", protocol = "sms")
+#' 
+#'   delete_topic(top)
+#' }
+#' 
+#' @seealso \code{\link{list_subscriptions}}
 #' @references
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html}{Subscribe}
+#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.html}{Unsubscribe}
 #' @export
 subscribe <- function(topic, endpoint, protocol, ...) {
     query_list <- list(TopicArn = topic, Action = "Subscribe")
     query_list$Endpoint <- endpoint
     protocol_list <- c("http","https","email","email-json","sms","sqs","application")
-    if(!protocol %in% protocol_list)
+    if (!protocol %in% protocol_list) {
         stop("'protocol' must be one of: ", paste0('"',protocol_list,'"', collapse = ", "))
-    else
+    } else {
         query_list$Protocol <- protocol
+    }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$SubscribeResponse$SubscribeResult$SubscriptionArn, 
               RequestId = out$SubscribeResponse$ResponseMetadata$RequestId)
 }
 
 
-#' @title Unsubscribe from a topic
-#' @description Cancels an endpoint's subscription to a topic.
-#' @details Unsubscribes an endpoint from an SNS topic.
-#' @param subscription A character string containing an SNS Subscription Amazon
-#' Resource Name (ARN).
-#' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
-#' @return If successful, a logical \code{TRUE}. Otherwise, a data structure of
-#' class \dQuote{aws_error} containing any error message(s) from AWS and
-#' information about the request attempt.
-#' @author Thomas J. Leeper
-#' @seealso \code{link{unsubscribe}} \code{\link{list_subscriptions}}
-#' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.html}{Unsubscribe}
+#' @rdname subscriptions
 #' @export
 unsubscribe <- function(subscription, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "Unsubscribe")
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(TRUE, 
               RequestId = out$UnsubscribeResponse$ResponseMetadata$RequestId)
 }
@@ -82,8 +78,7 @@ unsubscribe <- function(subscription, ...) {
 #' \dQuote{aws_error} containing any error message(s) from AWS and information
 #' about the request attempt.
 #' @author Thomas J. Leeper
-#' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
-#' \code{link{list_subscriptions}}
+#' @seealso \code{link{subscribe}} \code{link{list_subscriptions}}
 #' @references
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html}{GetSubscriptionAttributes}
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.html}{SetSubscriptionAttributes}
@@ -91,8 +86,9 @@ unsubscribe <- function(subscription, ...) {
 get_subscription_attrs <- function(subscription, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "GetSubscriptionAttributes")
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(out$GetSubscriptionAttributesResponse$GetSubscriptionAttributesResult$Attributes, 
               RequestId = out$GetSubscriptionAttributesResponse$ResponseMetadata$RequestId)
 }
@@ -101,15 +97,16 @@ get_subscription_attrs <- function(subscription, ...) {
 #' @export
 set_subscription_attrs <- function(subscription, attribute, ...) {
     query_list <- list(SubscriptionArn = subscription, Action = "SetSubscriptionAttributes")
-    if(any(!names(attribute) %in% c("DeliveryPolicy","RawMessageDelivery")))
+    if (any(!names(attribute) %in% c("DeliveryPolicy","RawMessageDelivery"))) {
         stop("Attribute name must be 'DeliveryPolicy' or 'RawMessageDelivery'")
-    else {
+    } else {
         query_list$AttributeName <- names(attribute)
         query_list$AttributeValue <- attribute[[1]]
     }
     out <- snsHTTP(query = query_list, ...)
-    if(inherits(out, "aws_error"))
+    if (inherits(out, "aws_error")) {
         return(out)
+    }
     structure(TRUE, 
               RequestId = out$SetSubscriptionAttributesResponse$ResponseMetadata$RequestId)
 }
@@ -135,8 +132,9 @@ set_subscription_attrs <- function(subscription, attribute, ...) {
 #' @author Thomas J. Leeper
 #' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
 #' \code{link{get_subscription_attrs}}
-#' @references
-#' \href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.html}{ListSubscriptions}
+#' @references \href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.html}{ListSubscriptions}
+#' @importFrom stats setNames
+#' @export
 list_subscriptions <- function(topic, token, ...) {
     if (missing(topic)) {
         query_list <- list(Action = "ListSubscriptions")

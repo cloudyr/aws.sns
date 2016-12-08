@@ -1,5 +1,11 @@
 #' @title Publish to a topic or endpoint
 #' @description Publish a message to a specified topic or application endpoint.
+#' @param topic Optionally, a character string containing an SNS Topic Amazon Resource Name (ARN). Must specify \code{topic} or \code{endpoint}.
+#' @param endpoint Optionally, a character string containing an SNS Application Endpoint ARN. Must specify \code{topic} or \code{endpoint}.
+#' @param message Either a single character string containing a message to be sent to all endpoints, or a named list of messages to be sent to specific endpoints (where the names of each element correspond to endpoints).
+#' @param subject Optionally, a character string containing a subject line (e.g., to be used for an email endpoint).
+#' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
+#' @return If successful, a character string containing a message ID. Otherwise, a data structure of class \dQuote{aws_error} containing any error message(s) from AWS and information about the request attempt.
 #' @details 
 #' Publishes a message to a topic or an application endpoint. Messages can be
 #' the same for all endpoints or customized so that, for example, a short
@@ -7,20 +13,21 @@
 #' topic while longer messages are sent to email endpoints, etc. The allowed
 #' message types are: default, email, email-json, sqs, sms, http, https, and
 #' application.
+#' @examples
+#' \dontrun{
+#'   top <- create_topic("new_topic")
 #' 
-#' @param topic Optionally, a character string containing an SNS Topic Amazon
-#' Resource Name (ARN). Must specify \code{topic} or \code{endpoint}.
-#' @param endpoint Optionally, a character string containing an SNS Application
-#' Endpoint ARN. Must specify \code{topic} or \code{endpoint}.
-#' @param message Either a single character string containing a message to be
-#' sent to all endpoints, or a named list of messages to be sent to specific
-#' endpoints (where the names of each element correspond to endpoints).
-#' @param subject Optionally, a character string containing a subject line
-#' (e.g., to be used for an email endpoint).
-#' @param ... Additional arguments passed to \code{\link{snsHTTP}}.
-#' @return If successful, a character string containing a message ID.
-#' Otherwise, a data structure of class \dQuote{aws_error} containing any error
-#' message(s) from AWS and information about the request attempt.
+#'   # simple notifications
+#'   publish(top, message = "This is a notification message", subject = "Notification!")
+#' 
+#'   # endpoint-specific notification
+#'   publish(top, message = list(sms = "This is an sms message", 
+#'                               email = "This is an email"), 
+#'           subject = "Notification!")
+#' 
+#'   delete_topic(top)
+#' }
+#' 
 #' @author Thomas J. Leeper
 #' @references
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_Publish.html}{Publish}

@@ -41,7 +41,6 @@ Thomas J. Leeper
 \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.html}{SetSubscriptionAttributes}
 }
 \seealso{
-\code{link{subscribe}} \code{link{unsubscribe}}
-\code{link{list_subscriptions}}
+\code{link{subscribe}} \code{link{list_subscriptions}}
 }
 

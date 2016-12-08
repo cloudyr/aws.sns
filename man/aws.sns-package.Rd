@@ -9,8 +9,7 @@
 AWS SNS Client Package
 }
 \details{
-A simple client package for the Amazon Web Services (AWS) Simple
-Notification Service (SNS) REST API.
+A simple client package for the Amazon Web Services (AWS) Simple Notification Service (SNS) REST API.
 }
 \author{
 Thomas J. Leeper <thosjleeper@gmail.com>

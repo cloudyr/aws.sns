@@ -1,8 +1,34 @@
-# AWS SNS Client Package #
+# AWS SNS Client Package
 
-**aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](http://aws.amazon.com/sns/) API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
+**aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](https://aws.amazon.com/sns/) API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
 
-## Code Examples ##
+To use the package, you will need an AWS account and enter your credentials into R. Your keypair can be generated on the [IAM Management Console](https://aws.amazon.com/) under the heading *Access Keys*. Note that you only have access to your secret key once. After it is generated, you need to save it in a secure location. New keypairs can be generated at any time if yours has been lost, stolen, or forgotten. 
+
+By default, all **cloudyr** packages look for the access key ID and secret access key in environment variables. You can also use this to specify a default region or a temporary "session token". For example:
+
+```R
+Sys.setenv("AWS_ACCESS_KEY_ID" = "mykey",
+           "AWS_SECRET_ACCESS_KEY" = "mysecretkey",
+           "AWS_DEFAULT_REGION" = "us-east-1",
+           "AWS_SESSION_TOKEN" = "mytoken")
+```
+
+These can alternatively be set on the command line prior to starting R or via an `Renviron.site` or `.Renviron` file, which are used to set environment variables in R during startup (see `? Startup`).
+
+If you work with multiple AWS accounts, another option that is consistent with other Amazon SDKs is to create [a centralized `~/.aws/credentials` file](https://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs), containing credentials for multiple accounts. You can then use credentials from this file on-the-fly by simply doing:
+
+```R
+# use your 'default' account credentials
+use_credentials()
+
+# use an alternative credentials profile
+use_credentials(profile = "bob")
+```
+
+Temporary session tokens are stored in environment variable `AWS_SESSION_TOKEN` (and will be stored there by the `use_credentials()` function). The [aws.iam package](https://github.com/cloudyr/aws.iam/) provides an R interface to IAM roles and the generation of temporary session tokens via the security token service (STS).
+
+
+## Code Examples
 
 The main purpose of Amazon SNS is to be able to push messages to different endpoints (e.g., Email, SMS, a Simple Queue Service queue, etc.). To do this, you have to create a *topic*, *subscribe* different endpoints (e.g., user email addresses) to that topic, and then *publish* to the topic. You can subscribe different types of endpoints to the same topic and, similarly, publish different messages to each type of endpoint simultaneously.
 
@@ -16,9 +42,9 @@ set_topic_attrs(topic, attribute = c(DisplayName = "Publicly visible topic name"
 ```
 
 ```
-## list()
+## [1] TRUE
 ## attr(,"RequestId")
-## [1] "4e055b41-adb6-5859-b6d1-167545652e16"
+## [1] "2d94baa0-931d-5352-a577-ea630d959d5d"
 ```
 
 To add a subscription to a topic:
@@ -31,7 +57,7 @@ subscribe(topic, "me@example.com", "email")
 ```
 ## [1] "pending confirmation"
 ## attr(,"RequestId")
-## [1] "83af083b-0bc0-5654-b443-450fe313e0b3"
+## [1] "6e1d1b5a-8bc0-5266-8975-4b991548bc69"
 ```
 
 ```r
@@ -71,9 +97,9 @@ publish(topic = topic, message = "This is a test message!", subject = "Hello!")
 ```
 
 ```
-## [1] "daec96f6-7e09-57bc-9533-dbc296ddc02c"
+## [1] "ea59fd65-de84-5067-9f98-ada6400c8e68"
 ## attr(,"RequestId")
-## [1] "9bcca33f-0a57-5b40-94d0-ee0be2830cd0"
+## [1] "55b1f0ee-359d-5c99-a3ca-a02dab150296"
 ```
 
 By default, the message is sent to all platforms:
@@ -94,22 +120,30 @@ publish(topic = topic, message = msgs, subject = "Hello!")
 ```
 
 ```
-## [1] "bc5f4554-b40d-585b-9a9f-08605cd92871"
+## [1] "7614981f-1680-5d0c-9ddf-c8dc88090303"
 ## attr(,"RequestId")
-## [1] "509bfe4e-68e5-5870-b930-b37a8031885a"
+## [1] "86899f80-af5c-557f-ae30-cf4331d5ab70"
 ```
 
 In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
 
 It is also possible to give other AWS accounts permission to view or publish to a topic using `add_permission`. For example, you may want to have multiple administrators who share responsibility for publishing messages to the topic. Permissions can be revoked using `remove_permission`.
 
-## Installation ##
+## Installation
 
-[![CRAN](http://www.r-pkg.org/badges/version/aws.sns)](http://cran.r-project.org/package=aws.sns)
+[![CRAN](https://www.r-pkg.org/badges/version/aws.sns)](https://cran.r-project.org/package=aws.sns)
+![Downloads](https://cranlogs.r-pkg.org/badges/aws.polly)
 [![Travis Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) 
-[![codecov.io](http://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](http://codecov.io/github/cloudyr/aws.sns?branch=master)
+[![codecov.io](https://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](https://codecov.io/github/cloudyr/aws.sns?branch=master)
 
-To install the latest development version from GitHub, run the following:
+This package is not yet on CRAN. To install the latest development version you can install from the cloudyr drat repository:
+
+```R
+# latest stable version
+install.packages("aws.sns", repos = c(cloudyr = "http://cloudyr.github.io/drat", getOption("repos")))
+```
+
+Or, to pull a potentially unstable version directly from GitHub:
 
 ```R
 if(!require("ghit")){
@@ -117,8 +151,6 @@ if(!require("ghit")){
 }
 ghit::install_github("cloudyr/aws.sns")
 ```
-
-To install the latest version from CRAN, simply use `install.packages("aws.sns")`.
 
 ---
 [![cloudyr project logo](http://i.imgur.com/JHS98Y7.png)](https://github.com/cloudyr)
