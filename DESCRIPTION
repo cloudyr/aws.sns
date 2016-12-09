@@ -7,7 +7,7 @@ Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Description: A simple client package for the Amazon Web Services (AWS) Simple
-    Notification Service (SNS) API.
+    Notification Service (SNS) <https://aws.amazon.com/sns/> API.
 License: GPL (>= 2)
 Imports:
     stats,
