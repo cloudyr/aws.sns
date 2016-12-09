@@ -3,7 +3,8 @@ Type: Package
 Title: AWS SNS Client Package
 Version: 0.1.5
 Date: 2016-12-08
-Author: Thomas J. Leeper
+Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
+                    email = "thosjleeper@gmail.com"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
 Description: A simple client package for the Amazon Web Services (AWS) Simple
     Notification Service (SNS) API.

@@ -93,7 +93,7 @@ It is also possible to give other AWS accounts permission to view or publish to 
 ## Installation
 
 [![CRAN](https://www.r-pkg.org/badges/version/aws.sns)](https://cran.r-project.org/package=aws.sns)
-![Downloads](https://cranlogs.r-pkg.org/badges/aws.polly)
+![Downloads](https://cranlogs.r-pkg.org/badges/aws.sns)
 [![Travis Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) 
 [![codecov.io](https://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](https://codecov.io/github/cloudyr/aws.sns?branch=master)
 

@@ -44,7 +44,7 @@ set_topic_attrs(topic, attribute = c(DisplayName = "Publicly visible topic name"
 ```
 ## [1] TRUE
 ## attr(,"RequestId")
-## [1] "2d94baa0-931d-5352-a577-ea630d959d5d"
+## [1] "d5069c6d-0616-5373-8b69-cca98694137b"
 ```
 
 To add a subscription to a topic:
@@ -57,7 +57,7 @@ subscribe(topic, "me@example.com", "email")
 ```
 ## [1] "pending confirmation"
 ## attr(,"RequestId")
-## [1] "6e1d1b5a-8bc0-5266-8975-4b991548bc69"
+## [1] "0dd167bd-8b99-59c5-ae20-37790b1ac9cd"
 ```
 
 ```r
@@ -97,9 +97,9 @@ publish(topic = topic, message = "This is a test message!", subject = "Hello!")
 ```
 
 ```
-## [1] "ea59fd65-de84-5067-9f98-ada6400c8e68"
+## [1] "343d9791-13da-5459-bb1d-c75593593451"
 ## attr(,"RequestId")
-## [1] "55b1f0ee-359d-5c99-a3ca-a02dab150296"
+## [1] "6cfee596-6909-583b-98da-b552e98a1833"
 ```
 
 By default, the message is sent to all platforms:
@@ -120,9 +120,9 @@ publish(topic = topic, message = msgs, subject = "Hello!")
 ```
 
 ```
-## [1] "7614981f-1680-5d0c-9ddf-c8dc88090303"
+## [1] "7ba74da2-f27b-5ca7-80eb-1d6672f81caf"
 ## attr(,"RequestId")
-## [1] "86899f80-af5c-557f-ae30-cf4331d5ab70"
+## [1] "098f0756-35c2-5b90-a5cc-5792b5415b98"
 ```
 
 In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
@@ -132,7 +132,7 @@ It is also possible to give other AWS accounts permission to view or publish to 
 ## Installation
 
 [![CRAN](https://www.r-pkg.org/badges/version/aws.sns)](https://cran.r-project.org/package=aws.sns)
-![Downloads](https://cranlogs.r-pkg.org/badges/aws.polly)
+![Downloads](https://cranlogs.r-pkg.org/badges/aws.sns)
 [![Travis Build Status](https://travis-ci.org/cloudyr/aws.sns.png?branch=master)](https://travis-ci.org/cloudyr/aws.sns) 
 [![codecov.io](https://codecov.io/github/cloudyr/aws.sns/coverage.svg?branch=master)](https://codecov.io/github/cloudyr/aws.sns?branch=master)
 
