@@ -5,16 +5,10 @@ r_packages:
 - knitr
 - covr
 - drat
-after_failure:
-  email:
-    recipients:
-    - thosjleeper@gmail.com
-    on_success: change
-    on_failure: change
 after_success:
 - Rscript -e 'library("covr");codecov()'
 - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash
   drat.sh
 env:
   global:
-    secure: EcB2jkavF0nu1KJx7dGHOP/qr8tRUcqK6mlDhl5TaiTS0c5dw7jpQ1aAx3MibLxtiDyo1dqcC09bTWVNw/QYmg4DBY9pkcbdEi7VyHqkbpzL5PPRfnfnNHGL63hJbOe2DGN5HsKpQIVFO+wEwtsfbIRqt1aAhqNlGdBtPQNDfJU=
+    secure: RPgg8dSXVreBceYdg2q6GBO9Spri1N7ouCytEh4PYWLNV8Ea/ZCXMDXMukBTJZGyGkI8ZdcajzFNOi0bl5m+hvGh80z7q2NBBt489f+gxAYcWdFOkbCIdv/1iXysqn8lYkrBoeJR47nYSLq1KfvkV6A8ns1+kcFiKPWwjXMtl1c=
