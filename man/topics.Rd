@@ -42,9 +42,6 @@ Create, delete, and list topics
   delete_topic(top)
 }
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html}{CreateTopic}
  \href{http://docs.aws.amazon.com/sns/latest/api/API_DeleteTopic.html}{DeleteTopic}
@@ -53,4 +50,6 @@ Thomas J. Leeper
 \seealso{
 \code{link{delete_topic}}
 }
-
+\author{
+Thomas J. Leeper
+}

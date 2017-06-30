@@ -47,10 +47,9 @@ application.
 }
 
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_Publish.html}{Publish}
 }
-
+\author{
+Thomas J. Leeper
+}

@@ -29,9 +29,6 @@ Lists subscriptions for a specified topic. Up to 100 subscriptions are
 returned by each request. The \code{token} argument can be used to return
 additional results.
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.html}{ListSubscriptions}
 }
@@ -39,4 +36,6 @@ Thomas J. Leeper
 \code{link{subscribe}} \code{link{unsubscribe}}
 \code{link{get_subscription_attrs}}
 }
-
+\author{
+Thomas J. Leeper
+}

@@ -25,11 +25,10 @@ Get or set topic attributes
 \details{
 \code{get_topic_attrs} retrieves topic attributes, while \code{set_topic_attrs} can be used to set those attributes.
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_GetTopicAttributes.html}{GetTopicAttributes}
 \href{http://docs.aws.amazon.com/sns/latest/api/API_SetTopicAttributes.html}{SetTopicAttributes}
 }
-
+\author{
+Thomas J. Leeper
+}

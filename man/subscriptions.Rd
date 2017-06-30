@@ -44,9 +44,6 @@ Subscribes an endpoint to the specified SNS topic.
 }
 
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html}{Subscribe}
 \href{http://docs.aws.amazon.com/sns/latest/api/API_Unsubscribe.html}{Unsubscribe}
@@ -54,4 +51,6 @@ Thomas J. Leeper
 \seealso{
 \code{\link{list_subscriptions}}
 }
-
+\author{
+Thomas J. Leeper
+}

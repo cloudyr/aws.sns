@@ -5,20 +5,18 @@
 \title{Execute SNS API Request}
 \usage{
 snsHTTP(query, region = Sys.getenv("AWS_DEFAULT_REGION", "us-east-1"),
-  key = Sys.getenv("AWS_ACCESS_KEY_ID"),
-  secret = Sys.getenv("AWS_SECRET_ACCESS_KEY"),
-  session_token = Sys.getenv("AWS_SESSION_TOKEN"), ...)
+  key = NULL, secret = NULL, session_token = NULL, ...)
 }
 \arguments{
 \item{query}{An optional named list containing query string parameters and their character values.}
 
 \item{region}{A character string containing an AWS region. If missing, the default \dQuote{us-east-1} is used.}
 
-\item{key}{A character string containing an AWS Access Key ID. The default is pulled from environment variable \dQuote{AWS_ACCESS_KEY_ID}.}
+\item{key}{A character string containing an AWS Access Key ID. See \code{\link[aws.signature]{locate_credentials}}.}
 
-\item{secret}{A character string containing an AWS Secret Access Key. The default is pulled from environment variable \dQuote{AWS_SECRET_ACCESS_KEY}.}
+\item{secret}{A character string containing an AWS Secret Access Key. See \code{\link[aws.signature]{locate_credentials}}.}
 
-\item{session_token}{Optionally, a character string containing an AWS temporary Session Token. If missing, defaults to value stored in environment variable \dQuote{AWS_SESSION_TOKEN}.}
+\item{session_token}{Optionally, a character string containing an AWS temporary Session Token. See \code{\link[aws.signature]{locate_credentials}}.}
 
 \item{...}{Additional arguments passed to \code{\link[httr]{GET}}.}
 }
@@ -34,4 +32,3 @@ This function constructs and signs an SNS API request and returns the results th
 \author{
 Thomas J. Leeper
 }
-

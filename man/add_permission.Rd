@@ -3,6 +3,7 @@
 \name{add_permission}
 \alias{add_permission}
 \alias{remove_permission}
+\alias{remove_permission}
 \title{Add/remove access permissions}
 \usage{
 add_permission(topic, label, permissions, ...)
@@ -27,11 +28,10 @@ Add/remove permissions to publish to topic
 \details{
 Add or remove a permission, which grants another AWS account permission to use an SNS topic.
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html}{AddPermission}
 \href{http://docs.aws.amazon.com/sns/latest/api/API_RemovePermission.html}{RemovePermission}
 }
-
+\author{
+Thomas J. Leeper
+}

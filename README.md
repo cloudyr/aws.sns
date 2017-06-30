@@ -2,27 +2,31 @@
 
 **aws.sns** is a simple client package for the Amazon Web Services (AWS) [Simple Notification Service (SNS)](https://aws.amazon.com/sns/) API, which can be used to trigger push messages to a variety of users, devices, and other endpoints. This might be useful for maintaining multi-platform mailing lists, or simply for creating a way to notify yourself when long-running code completes.
 
-To use the package, you will need an AWS account and enter your credentials into R. Your keypair can be generated on the [IAM Management Console](https://aws.amazon.com/) under the heading *Access Keys*. Note that you only have access to your secret key once. After it is generated, you need to save it in a secure location. New keypairs can be generated at any time if yours has been lost, stolen, or forgotten. 
+To use the package, you will need an AWS account and to enter your credentials into R. Your keypair can be generated on the [IAM Management Console](https://aws.amazon.com/) under the heading *Access Keys*. Note that you only have access to your secret key once. After it is generated, you need to save it in a secure location. New keypairs can be generated at any time if yours has been lost, stolen, or forgotten. The [**aws.iam** package](https://github.com/cloudyr/aws.iam) profiles tools for working with IAM, including creating roles, users, groups, and credentials programmatically; it is not needed to *use* IAM credentials.
 
-By default, all **cloudyr** packages look for the access key ID and secret access key in environment variables. You can also use this to specify a default region or a temporary "session token". For example:
+By default, all **cloudyr** packages for AWS services allow the use of credentials specified in a number of ways, beginning with:
 
-```R
-Sys.setenv("AWS_ACCESS_KEY_ID" = "mykey",
-           "AWS_SECRET_ACCESS_KEY" = "mysecretkey",
-           "AWS_DEFAULT_REGION" = "us-east-1",
-           "AWS_SESSION_TOKEN" = "mytoken")
-```
+ 1. User-supplied values passed directly to functions.
+ 2. Environment variables, which can alternatively be set on the command line prior to starting R or via an `Renviron.site` or `.Renviron` file, which are used to set environment variables in R during startup (see `? Startup`). Or they can be set within R:
+ 
+    ```R
+    Sys.setenv("AWS_ACCESS_KEY_ID" = "mykey",
+               "AWS_SECRET_ACCESS_KEY" = "mysecretkey",
+               "AWS_DEFAULT_REGION" = "us-east-1",
+               "AWS_SESSION_TOKEN" = "mytoken")
+    ```
+ 3. If R is running an EC2 instance, the role profile credentials provided by [**aws.ec2metadata**](https://cran.r-project.org/package=aws.ec2metadata).
+ 4. Profiles saved in a `/.aws/credentials` "dot file" in the current working directory. The `"default" profile is assumed if none is specified.
+ 5. [A centralized `~/.aws/credentials` file](https://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs), containing credentials for multiple accounts. The `"default" profile is assumed if none is specified.
 
-These can alternatively be set on the command line prior to starting R or via an `Renviron.site` or `.Renviron` file, which are used to set environment variables in R during startup (see `? Startup`).
-
-If you work with multiple AWS accounts, another option that is consistent with other Amazon SDKs is to create [a centralized `~/.aws/credentials` file](https://blogs.aws.amazon.com/security/post/Tx3D6U6WSFGOK2H/A-New-and-Standardized-Way-to-Manage-Credentials-in-the-AWS-SDKs), containing credentials for multiple accounts. You can then use credentials from this file on-the-fly by simply doing:
+Profiles stored locally or in a centralized location (e.g., `~/.aws/credentials`) can also be invoked via:
 
 ```R
 # use your 'default' account credentials
-use_credentials()
+aws.signature::use_credentials()
 
 # use an alternative credentials profile
-use_credentials(profile = "bob")
+aws.signature::use_credentials(profile = "bob")
 ```
 
 Temporary session tokens are stored in environment variable `AWS_SESSION_TOKEN` (and will be stored there by the `use_credentials()` function). The [aws.iam package](https://github.com/cloudyr/aws.iam/) provides an R interface to IAM roles and the generation of temporary session tokens via the security token service (STS).
@@ -44,7 +48,7 @@ set_topic_attrs(topic, attribute = c(DisplayName = "Publicly visible topic name"
 ```
 ## [1] TRUE
 ## attr(,"RequestId")
-## [1] "d5069c6d-0616-5373-8b69-cca98694137b"
+## [1] "f89a12da-baa7-50d6-a9fa-430ad53ffca7"
 ```
 
 To add a subscription to a topic:
@@ -57,7 +61,7 @@ subscribe(topic, "me@example.com", "email")
 ```
 ## [1] "pending confirmation"
 ## attr(,"RequestId")
-## [1] "0dd167bd-8b99-59c5-ae20-37790b1ac9cd"
+## [1] "5ef5d1d0-6291-5fe1-bd95-80000d095390"
 ```
 
 ```r
@@ -97,9 +101,9 @@ publish(topic = topic, message = "This is a test message!", subject = "Hello!")
 ```
 
 ```
-## [1] "343d9791-13da-5459-bb1d-c75593593451"
+## [1] "f4150164-b522-592f-ac6f-50b4dabbb55e"
 ## attr(,"RequestId")
-## [1] "6cfee596-6909-583b-98da-b552e98a1833"
+## [1] "b94b8a69-66e1-55ed-b786-dbb90978399c"
 ```
 
 By default, the message is sent to all platforms:
@@ -120,9 +124,9 @@ publish(topic = topic, message = msgs, subject = "Hello!")
 ```
 
 ```
-## [1] "7ba74da2-f27b-5ca7-80eb-1d6672f81caf"
+## [1] "ff5300ee-8440-5611-9cd2-513eebd9ba60"
 ## attr(,"RequestId")
-## [1] "098f0756-35c2-5b90-a5cc-5792b5415b98"
+## [1] "460f2808-ea90-5d67-92eb-79d885095116"
 ```
 
 In addition to the standard endpoints ("http", "https", "email", "email-json", "sms", "sqs", "application"), it is possible to create endpoints for mobile platform applications. [See the SNS Developer Guide for further details](http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).

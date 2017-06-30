@@ -2,8 +2,8 @@
 % Please edit documentation in R/package.R
 \docType{package}
 \name{aws.sns-package}
-\alias{aws.sns}
 \alias{aws.sns-package}
+\alias{aws.sns}
 \title{aws.sqs}
 \description{
 AWS SNS Client Package
@@ -15,4 +15,3 @@ A simple client package for the Amazon Web Services (AWS) Simple Notification Se
 Thomas J. Leeper <thosjleeper@gmail.com>
 }
 \keyword{package}
-

@@ -33,9 +33,6 @@ Get or set subscription attributes
 \code{get_subscription_attrs} retrieves subscription attributes, while
 \code{set_subscription_attrs} can be used to set those attributes.
 }
-\author{
-Thomas J. Leeper
-}
 \references{
 \href{http://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html}{GetSubscriptionAttributes}
 \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.html}{SetSubscriptionAttributes}
@@ -43,4 +40,6 @@ Thomas J. Leeper
 \seealso{
 \code{link{subscribe}} \code{link{list_subscriptions}}
 }
-
+\author{
+Thomas J. Leeper
+}
