@@ -1,13 +1,13 @@
 Package: aws.sns
 Type: Package
 Title: AWS SNS Client Package
-Version: 0.1.6
-Date: 2017-06-30
+Version: 0.1.7
+Date: 2017-07-01
 Authors@R: c(person("Thomas J.", "Leeper", role = c("aut", "cre"),
                     email = "thosjleeper@gmail.com"))
 Maintainer: Thomas J. Leeper <thosjleeper@gmail.com>
-Description: A simple client package for the Amazon Web Services (AWS) Simple
-    Notification Service (SNS) <https://aws.amazon.com/sns/> API.
+Description: A simple client package for the Amazon Web Services ('AWS') Simple
+    Notification Service ('SNS') 'API' <https://aws.amazon.com/sns/>.
 License: GPL (>= 2)
 Imports:
     stats,

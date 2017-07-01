@@ -109,9 +109,9 @@ set_topic_attrs <- function(topic, attribute, ...) {
               RequestId = out$SetTopicAttributesResponse$ResponseMetadata$RequestId)
 }
 
-#' @rdname add_permission
+#' @rdname add_topic_permission
 #' @title Add/remove access permissions
-#' @aliases add_permission remove_permission
+#' @aliases add__topic_permission remove_topic_permission
 #' @description Add/remove permissions to publish to topic
 #' @param topic A character string containing an SNS Topic Amazon Resource Name (ARN).
 #' @param label A character string containing a label for the permission.
@@ -124,7 +124,7 @@ set_topic_attrs <- function(topic, attribute, ...) {
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_AddPermission.html}{AddPermission}
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_RemovePermission.html}{RemovePermission}
 #' @export
-add_permission <- function(topic, label, permissions, ...) {
+add_topic_permission <- function(topic, label, permissions, ...) {
     query_list <- list(TopicArn = topic, Label = label, Action = "AddPermission")
     # permissions should be a named list, with each element containing permissions
     len <- sapply(permissions, length)
@@ -141,9 +141,9 @@ add_permission <- function(topic, label, permissions, ...) {
               RequestId = out$AddPermissionResponse$ResponseMetadata$RequestId)
 }
 
-#' @rdname add_permission
+#' @rdname add_topic_permission
 #' @export
-remove_permission <- function(topic, label, ...) {
+remove_topic_permission <- function(topic, label, ...) {
     query_list <- list(TopicArn = topic, Label = label, Action = "RemovePermission")
     out <- snsHTTP(query = query_list, ...)
     if (inherits(out, "aws_error")) {
@@ -151,4 +151,18 @@ remove_permission <- function(topic, label, ...) {
     }
     structure(TRUE, 
               RequestId = out$RemovePermissionResponse$ResponseMetadata$RequestId)
+}
+
+#' @rdname add_topic_permission
+#' @export
+add_permission <- function(...) {
+    .Deprecated("add_topic_permission")
+    add_topic_permission(...)
+}
+
+#' @rdname add_topic_permission
+#' @export
+remove_permission <- function(...) {
+    .Deprecated("remove_topic_permission")
+    add_topic_permission(...)
 }
