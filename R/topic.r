@@ -152,17 +152,3 @@ remove_topic_permission <- function(topic, label, ...) {
     structure(TRUE, 
               RequestId = out$RemovePermissionResponse$ResponseMetadata$RequestId)
 }
-
-#' @rdname add_topic_permission
-#' @export
-add_permission <- function(...) {
-    .Deprecated("add_topic_permission")
-    add_topic_permission(...)
-}
-
-#' @rdname add_topic_permission
-#' @export
-remove_permission <- function(...) {
-    .Deprecated("remove_topic_permission")
-    add_topic_permission(...)
-}

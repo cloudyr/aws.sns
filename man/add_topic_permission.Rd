@@ -5,17 +5,11 @@
 \alias{add__topic_permission}
 \alias{remove_topic_permission}
 \alias{remove_topic_permission}
-\alias{add_permission}
-\alias{remove_permission}
 \title{Add/remove access permissions}
 \usage{
 add_topic_permission(topic, label, permissions, ...)
 
 remove_topic_permission(topic, label, ...)
-
-add_permission(...)
-
-remove_permission(...)
 }
 \arguments{
 \item{topic}{A character string containing an SNS Topic Amazon Resource Name (ARN).}
