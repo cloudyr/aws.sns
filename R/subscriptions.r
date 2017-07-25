@@ -19,7 +19,7 @@
 #'   subscribe(top, "example@example.com", protocol = "email")
 #' 
 #'   # sms subscription
-#'   subscribe(top, "555-123-4567", protocol = "sms")
+#'   subscribe(top, "1-555-123-4567", protocol = "sms")
 #' 
 #'   delete_topic(top)
 #' }
@@ -78,7 +78,7 @@ unsubscribe <- function(subscription, ...) {
 #' \dQuote{aws_error} containing any error message(s) from AWS and information
 #' about the request attempt.
 #' @author Thomas J. Leeper
-#' @seealso \code{link{subscribe}} \code{link{list_subscriptions}}
+#' @seealso \code{\link{subscribe}} \code{\link{list_subscriptions}}
 #' @references
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html}{GetSubscriptionAttributes}
 #' \href{http://docs.aws.amazon.com/sns/latest/api/API_SetSubscriptionAttributes.html}{SetSubscriptionAttributes}
@@ -130,8 +130,8 @@ set_subscription_attrs <- function(subscription, attribute, ...) {
 #' structure of class \dQuote{aws_error} containing any error message(s) from
 #' AWS and information about the request attempt.
 #' @author Thomas J. Leeper
-#' @seealso \code{link{subscribe}} \code{link{unsubscribe}}
-#' \code{link{get_subscription_attrs}}
+#' @seealso \code{\link{subscribe}} \code{\link{unsubscribe}}
+#' \code{\link{get_subscription_attrs}}
 #' @references \href{http://docs.aws.amazon.com/sns/latest/api/API_ListSubscriptions.html}{ListSubscriptions}
 #' @importFrom stats setNames
 #' @export

@@ -19,7 +19,7 @@
 #'   list_topics()
 #'   delete_topic(top)
 #' }
-#' @seealso \code{link{delete_topic}}
+#' @seealso \code{\link{delete_topic}}
 #' @references
 #'  \href{http://docs.aws.amazon.com/sns/latest/api/API_CreateTopic.html}{CreateTopic}
 #'  \href{http://docs.aws.amazon.com/sns/latest/api/API_DeleteTopic.html}{DeleteTopic}
