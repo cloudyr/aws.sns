@@ -3,4 +3,4 @@ README.Rmd
 drat.sh
 knitreadme.sh
 CONTRIBUTING.md
-^\.github/
+^\.github.?
