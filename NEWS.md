@@ -1,4 +1,4 @@
-# aws.sns devel
+# aws.sns 0.1.8
 
 * New maintainer: antoine-sachet (#6)
 
