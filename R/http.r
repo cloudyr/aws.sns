@@ -28,7 +28,7 @@ function(
   ...
 ) {
     # locate and validate credentials
-    credentials <- locate_credentials(key = key, secret = secret, session_token = session_token, region = region, verbose = verbose)
+    credentials <- aws.signature::locate_credentials(key = key, secret = secret, session_token = session_token, region = region, verbose = verbose)
     key <- credentials[["key"]]
     secret <- credentials[["secret"]]
     session_token <- credentials[["session_token"]]

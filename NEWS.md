@@ -1,6 +1,8 @@
 # aws.sns devel
 
-* New maintainer: antoine-sachet
+* New maintainer: antoine-sachet (#6)
+
+* Fix dependency issue with `locate_credentials()` (#5).
 
 # aws.sns 0.1.7
 
