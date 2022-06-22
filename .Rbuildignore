@@ -4,3 +4,5 @@ drat.sh
 knitreadme.sh
 CONTRIBUTING.md
 ^\.github.?
+^.*\.Rproj$
+^\.Rproj\.user$
